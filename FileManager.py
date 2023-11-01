@@ -1,5 +1,6 @@
 import tkinter as tk
 import customtkinter
+from CTkListbox import *
 import os
 
 FONT_TYPE = "meiryo"
@@ -34,6 +35,8 @@ class App(customtkinter.CTk):
         # stickyは拡大したときに広がる方向のこと。nsew で4方角で指定する。
         self.read_file_frame = ReadFileFrame(master=self, header_name="ファイル読み込み")
         self.read_file_frame.grid(row=0, column=0, padx=20, pady=20, sticky="ew")
+        self.show_dir_list = ShowDirList(master=self,header_name="show directory list")
+        self.show_dir_list.grid(row=1, column=0, padx=(20,20), pady=(0,20),sticky="nsw", ipadx=40)
 
 class ReadFileFrame(customtkinter.CTkFrame):
     def __init__(self, *args, header_name="ReadFileFrame", **kwargs):
@@ -104,6 +107,25 @@ class ReadFileFrame(customtkinter.CTkFrame):
         else:
             # ファイル選択がキャンセルされた場合
             return None
+
+class ShowDirList(customtkinter.CTkFrame):
+    def __init__(self, *args, header_name="ShowDirList", **kwargs):
+        super().__init__(*args, **kwargs)
+        
+        self.fonts = (FONT_TYPE, 15)
+        self.header_name = header_name
+
+        # フォームのセットアップをする
+        self.setup_form()
+
+    def setup_form(self):
+        # 行方向のマスのレイアウトを設定する。リサイズしたときに一緒に拡大したい行をweight 1に設定。
+        self.grid_rowconfigure(1, weight=1)
+        # 列方向のマスのレイアウトを設定する
+        self.grid_columnconfigure(0, weight=1)
+        
+        self.listbox = CTkListbox(master=self, command=show_value)
+
 
 
 if __name__ == "__main__":
