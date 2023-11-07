@@ -1,9 +1,18 @@
 import tkinter as tk
+from tkinter import ttk
 import customtkinter
 from CTkListbox import *
 import os
 
-FONT_TYPE = "meiryo"
+FONT_TYPE = "Yu Gothic"
+
+# class App(customtkinter.CTk):
+#     def __init__(self):
+#         super().__init__()
+        
+#         view = FileView.FileView()
+#         model = FileModel.FileModel()
+#         controller = FileController.FileController(model, view)
 
 class App(customtkinter.CTk):
 
@@ -124,8 +133,33 @@ class ShowDirList(customtkinter.CTkFrame):
         # 列方向のマスのレイアウトを設定する
         self.grid_columnconfigure(0, weight=1)
         
-        self.listbox = CTkListbox(master=self, command=show_value)
+        ###Treeview Customisation (theme colors are selected)
+        bg_color = self._apply_appearance_mode(customtkinter.ThemeManager.theme["CTkFrame"]["fg_color"])
+        text_color = self._apply_appearance_mode(customtkinter.ThemeManager.theme["CTkLabel"]["text_color"])
+        selected_color = self._apply_appearance_mode(customtkinter.ThemeManager.theme["CTkButton"]["fg_color"])
+        
+        # font_std = tk.font.Font(20)
+        treestyle = ttk.Style()
+        treestyle.theme_use('default')
+        treestyle.configure("Treeview", background=bg_color, foreground=text_color, fieldbackground=bg_color, borderwidth=0, rowheight=30)
+        treestyle.map('Treeview', background=[('selected', bg_color)], foreground=[('selected', selected_color)])
+        
+        ##Treeview widget data
+        self.treeview = ttk.Treeview(self, height=30,show="tree")
+        self.treeview.grid(padx=10)
+        self.treeview.insert('', '0', 'i1', text ='Python')
+        self.treeview.insert('', '1', 'i2', text ='Customtkinter')
+        self.treeview.insert('', '2', 'i3', text ='Tkinter')
+        self.treeview.insert('i2', 'end', 'Frame', text ='Frame')
+        self.treeview.insert('i2', 'end', 'Label', text ='Label')
+        self.treeview.insert('i3', 'end', 'Treeview', text ='Treeview')
+        self.treeview.move('i2', 'i1', 'end')
+        self.treeview.move('i3', 'i1', 'end')
 
+        self.treeview.grid(row=0, column=0, padx=0, pady=(0,10), sticky="w")
+
+    def show_value(selected_option):
+        print(selected_option)
 
 
 if __name__ == "__main__":
