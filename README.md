@@ -4,7 +4,7 @@
 
 ## 環境
 
-https://img.shields.io/badge/python-3.10.5-33CCFF
+![Static Badge](https://img.shields.io/badge/python-3.10.5-33CCFF)
 
 ### pip
 
